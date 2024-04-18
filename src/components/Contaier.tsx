@@ -1,10 +1,19 @@
-import { type ElementType } from 'react';
+import {
+  type ReactNode,
+  type ElementType,
+  type ComponentPropsWithoutRef,
+} from 'react';
 
-type ContainerProps = {
-  as: ElementType;
-};
+type ContainerProps<T extends ElementType> = {
+  as?: T;
+  children: ReactNode;
+} & ComponentPropsWithoutRef<T>;
 
-export const Contaier = ({ as }: ContainerProps) => {
-  const Component = as;
-  return <Component />;
+export const Contaier = <C extends ElementType>({
+  as,
+  children,
+  ...props
+}: ContainerProps<C>) => {
+  const Component = as || 'div';
+  return <Component {...props}>{children}</Component>;
 };
